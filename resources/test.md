@@ -1,3 +1,6 @@
+---
+title: This is a test document
+---
 # Test document
 
 This is a test document that we should be able to convert to HTML.
