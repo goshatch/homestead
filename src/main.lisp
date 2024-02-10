@@ -8,17 +8,19 @@
     (with-standard-io-syntax
       (read in))))
 
-(defun process-metadata-node (node full-permalink)
+(defun process-metadata-node (node children full-permalink)
   (let* ((attributes (cadr node))
           (title (getf attributes :title))
           (rss (getf attributes :rss))
-          (keywords (getf attributes :keywords)))
+          (keywords (getf attributes :keywords))
+          (children-count (length (car children))))
     (format t
-      "page: \"~a\" [~a] rss? ~a | kwd: ~a~%"
+      "page: \"~a\" [~a] rss? ~a | kwd: ~a | chld: ~a~%"
       title
       full-permalink
       (if rss "YES" "no")
-      (if keywords (util:join keywords) "none"))))
+      (if keywords (util:join keywords) "none")
+      children-count)))
 
 (defun full-permalink (permalink &optional parent-permalink)
   (if parent-permalink
@@ -35,7 +37,7 @@
            (permalink (car node))
            (children (list (cddr node)))
            (full-permalink (full-permalink permalink parent-permalink)))
-      (process-metadata-node node full-permalink)
+      (process-metadata-node node children full-permalink)
       (dolist (child children)
         (process-metadata-tree child full-permalink)))
     (let ((siblings (cdr tree)))
