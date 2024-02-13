@@ -3,10 +3,20 @@
   (:local-nicknames (#:util #:homestead/util)))
 (in-package :homestead)
 
+(defparameter *allowed-extensions* '("html" "md"))
+(defparameter *site-root* "resources/site")
+
 (defun load-metadata (&optional (file-path "resources/metadata.lisp"))
   (with-open-file (in file-path)
     (with-standard-io-syntax
       (read in))))
+
+(defun load-content-file (full-permalink)
+  "Load the contents of the file at FULL-PERMALINK and return as string"
+  "test")
+
+(defun get-template (node)
+  "Get the appropriate template to render the NODE")
 
 (defun process-metadata-node (node children full-permalink)
   (let* ((attributes (cadr node))
