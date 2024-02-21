@@ -5,9 +5,9 @@
   :depends-on (#:cl-markdown)
   :components ((:module "src"
                 :components
-                ((:file "main")
-                 (:file "templates")
-                 (:file "util"))))
+                ((:file "util")
+                 (:file "templates" :depends-on ("util"))
+                 (:file "main" :depends-on ("util" "templates")))))
   :description "A static website generator"
   :in-order-to ((test-op (test-op "homestead/tests"))))
 

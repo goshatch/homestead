@@ -1,6 +1,5 @@
 (defpackage homestead
-  (:use #:cl)
-  (:local-nicknames (#:util #:homestead/util)))
+  (:use #:cl))
 (in-package :homestead)
 
 (defparameter *allowed-extensions* '("html" "md"))
@@ -13,10 +12,11 @@
 
 (defun load-content-file (full-permalink)
   "Load the contents of the file at FULL-PERMALINK and return as string"
-  "test")
+  full-permalink)
 
 (defun get-template (node)
-  "Get the appropriate template to render the NODE")
+  "Get the appropriate template to render the NODE"
+  (first node))
 
 (defun process-metadata-node (node children full-permalink)
   (let* ((attributes (cadr node))
