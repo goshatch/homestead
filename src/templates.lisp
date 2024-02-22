@@ -14,8 +14,15 @@
 
 (defun render (template)
   "Render a full or partial template"
-  template)
+  (let ((html (cl-ppcre:split "{{\\s(.*)\\s}}" (util:slurp template) :with-registers-p t)))
+    (util:join
+      (mapcar (lambda (str)
+                (if (ppcre:scan "^\\(" str)
+                  (eval (read-from-string str))
+                  str))
+        html)
+      "")))
 
 (defun include (filename)
   "Include a partial template at the location of the call"
-  filename)
+  (util:slurp (concatenate 'string "resources/site/_includes/" filename)))

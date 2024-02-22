@@ -2,7 +2,7 @@
   :version "0.0.1"
   :author "Gosha Tcherednitchenko <mail@gosha.net>"
   :license "MIT License"
-  :depends-on (#:cl-markdown)
+  :depends-on (#:cl-markdown #:cl-ppcre)
   :components ((:module "src"
                 :components
                 ((:file "util")
