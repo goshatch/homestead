@@ -12,9 +12,9 @@
 ;;; This will look in the _includes directory for a file named footer.html or
 ;;; footer.md (or any allowed extension.)
 
-(defun render (template)
-  "Render a full or partial template"
-  (let ((html (cl-ppcre:split "{{\\s(.*)\\s}}" (util:slurp template) :with-registers-p t)))
+(defun render (path)
+  "Render a full or partial template at PATH"
+  (let ((html (cl-ppcre:split "{{\\s(.*)\\s}}" (util:slurp path) :with-registers-p t)))
     (util:join
       (mapcar (lambda (str)
                 (if (ppcre:scan "^\\(" str)
@@ -24,5 +24,5 @@
       "")))
 
 (defun include (filename)
-  "Include a partial template at the location of the call"
-  (util:slurp (concatenate 'string "resources/site/_includes/" filename)))
+  "Include a partial template represented by FILENAME at the location of the call"
+  (render (util:find-include-path filename)))
