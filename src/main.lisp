@@ -5,7 +5,7 @@
 
 (defvar *settings*
   '(:allowed-extensions (list "html" "md")
-     :contents-dir "resources/site"
+     :contents-dir "resources/contents"
      :build-dir "resources/build"))
 
 (defun get-setting (key)
