@@ -6,7 +6,8 @@
     #:slurp
     #:build-path
     #:find-file-path
-    #:find-include-path))
+    #:find-include-path
+    #:find-layout-path))
 
 (in-package :homestead/util)
 
@@ -40,3 +41,8 @@
   "Find the file with the appropriate extension for the include with NAME"
   (find-file-path
     (concatenate 'string "_includes/" name)))
+
+(defun find-layout-path (name)
+  "Find the file for the layout with NAME"
+  (find-file-path
+    (concatenate 'string "_layouts/" name)))
