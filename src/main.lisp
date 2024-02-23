@@ -1,14 +1,31 @@
 (defpackage homestead
-  (:use #:cl))
+  (:use #:cl)
+  (:export #:get-setting))
 (in-package :homestead)
 
-(defparameter *allowed-extensions* '("html" "md"))
-(defparameter *site-root* "resources/site")
+(defparameter *settings* (make-hash-table :test 'equal))
+
+(defun init-settings ()
+  "Initialise global settings hash table"
+  (let ((pairs '(("allowed-extensions" . (list "html" "md"))
+                 ("site-root" . "resources/site"))))
+    (dolist (pair pairs)
+      (setf (gethash (car pair) *settings*) (cdr pair)))))
+
+(defun get-setting (key)
+  "Get a setting value by its KEY"
+  (gethash key *settings*))
 
 (defun load-metadata (&optional (file-path "resources/metadata.lisp"))
   (with-open-file (in file-path)
     (with-standard-io-syntax
       (read in))))
+
+;;; TODO: See building a self-contained executable with SBCL
+;;; https://lispcookbook.github.io/cl-cookbook/scripting.html#with-sbcl---images-and-executables
+(defun main ()
+  "Entry point for Homestead"
+  (init-settings))
 
 (defun load-content-file (full-permalink)
   "Load the contents of the file at FULL-PERMALINK and return as string"
