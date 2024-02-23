@@ -6,6 +6,7 @@
     #:slurp
     #:merge-plists
     #:build-path
+    #:build-output-path
     #:find-file-path
     #:find-include-path
     #:find-layout-path))
@@ -36,6 +37,10 @@
 (defun build-path (permalink &optional (extension "html"))
   "Return path for file with extension EXTENSION representing PERMALINK"
   (concatenate 'string (homestead:get-setting :contents-dir) "/" permalink "." extension))
+
+(defun build-output-path (permalink)
+  "Return output file path for node PERMALINK"
+  (concatenate 'string (homestead:get-setting :build-dir) "/" permalink "/index.html"))
 
 (defun find-file-path (permalink)
   "Find the file with the appropriate extension for PERMALINK"
