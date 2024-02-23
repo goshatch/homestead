@@ -1,6 +1,6 @@
 (defpackage homestead/templates
   (:use #:cl)
-  (:export #:render #:include))
+  (:export #:render-node #:render #:include))
 (in-package :homestead/templates)
 
 ;;; NOTE: Templates are rendered in a html file as such:
