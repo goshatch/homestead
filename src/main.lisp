@@ -3,18 +3,14 @@
   (:export #:get-setting))
 (in-package :homestead)
 
-(defparameter *settings* (make-hash-table :test 'equal))
-
-(defun init-settings ()
-  "Initialise global settings hash table"
-  (let ((pairs '(("allowed-extensions" . (list "html" "md"))
-                 ("site-root" . "resources/site"))))
-    (dolist (pair pairs)
-      (setf (gethash (car pair) *settings*) (cdr pair)))))
+(defvar *settings*
+  '(:allowed-extensions (list "html" "md")
+     :contents-dir "resources/site"
+     :build-dir "resources/build"))
 
 (defun get-setting (key)
   "Get a setting value by its KEY"
-  (gethash key *settings*))
+  (getf *settings* key))
 
 (defun load-metadata (&optional (file-path "resources/metadata.lisp"))
   (with-open-file (in file-path)

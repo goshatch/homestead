@@ -35,7 +35,7 @@
 
 (defun build-path (permalink &optional (extension "html"))
   "Return path for file with extension EXTENSION representing PERMALINK"
-  (concatenate 'string (homestead:get-setting "site-root") "/" permalink "." extension))
+  (concatenate 'string (homestead:get-setting :contents-dir) "/" permalink "." extension))
 
 (defun find-file-path (permalink)
   "Find the file with the appropriate extension for PERMALINK"
