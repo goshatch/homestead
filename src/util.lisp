@@ -4,6 +4,7 @@
   (:export
     #:join
     #:slurp
+    #:merge-plists
     #:build-path
     #:find-file-path
     #:find-include-path
@@ -24,6 +25,13 @@
       (loop for line = (read-line stream nil nil)
         while line do (write-string line out)
         (write-char #\Newline out)))))
+
+(defun merge-plists (p1 p2)
+  "Merge two plists, P1 and P2. Values from P2 override values from P1."
+  (let ((result (copy-list p1)))
+    (loop for (key value) on p2 by #'cddr
+      do (setf (getf result key) value))
+    result))
 
 (defun build-path (permalink &optional (extension "html"))
   "Return path for file with extension EXTENSION representing PERMALINK"

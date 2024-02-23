@@ -3,7 +3,7 @@
   (:export #:render #:include))
 (in-package :homestead/templates)
 
-;;; Templates are rendered in a html file as such:
+;;; NOTE: Templates are rendered in a html file as such:
 ;;;
 ;;; <div>
 ;;;   {{ (include "footer") }}
@@ -12,16 +12,24 @@
 ;;; This will look in the _includes directory for a file named footer.html or
 ;;; footer.md (or any allowed extension.)
 
-(defun render-in-layout (path &optional (layout "base"))
-  "Render the template at PATH within LAYOUT"
-  (let ((html (cl-ppcre:split "{{\\s(\\(content\\))\\s}}" (util:slurp (util:find-layout-path layout)) :with-registers-p t)))
-    (util:join
-      (mapcar (lambda (str)
-                (if (ppcre:scan "^\\(content\\)$" str)
-                  (render path)
-                  str))
-        html)
-      "")))
+(defvar *default-node-attrs* '(:layout "base"))
+(defvar *node-attrs*)
+
+(defun render-node (node)
+  "Set node attributes and start rendering process"
+  (let ((attrs (cadr node)))
+    (setf *node-attrs* (util:merge-plists *default-node-attrs* attrs))
+    (render-in-layout)))
+
+(defun render-in-layout ()
+  (render (util:find-layout-path (getf *node-attrs* :layout))))
+
+(defun content ()
+  (render (util:find-file-path (getf *node-attrs* :permalink))))
+
+(defun include (filename)
+  "Include a partial template represented by FILENAME at the location of the call"
+  (render (util:find-include-path filename)))
 
 (defun render (path)
   "Render a full or partial template at PATH"
@@ -33,7 +41,3 @@
                   str))
         html)
       "")))
-
-(defun include (filename)
-  "Include a partial template represented by FILENAME at the location of the call"
-  (render (util:find-include-path filename)))
