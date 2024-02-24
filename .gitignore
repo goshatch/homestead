@@ -7,3 +7,5 @@
 *.x86f
 *~
 .#*
+resources/build/*
+!resources/build/.keep

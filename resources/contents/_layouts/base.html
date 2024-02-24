@@ -8,8 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
+    {{ (include "navigation") }}
     <p>This text is part of the layout</p>
     {{ (content) }}
     <p>This is also part of the layout</p>
+    {{ (include "footer") }}
   </body>
 </html>

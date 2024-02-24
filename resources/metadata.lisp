@@ -15,4 +15,6 @@
      (:title "Blog"
        :rss t))
    ("about"
-     (:title "About"))))
+     (:title "About"))
+   ("now"
+     (:title "What I'm working on now"))))
