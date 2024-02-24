@@ -47,7 +47,7 @@
   (let ((possible-paths
           (mapcar
             (lambda (ext) (build-path permalink ext))
-            (homestead:get-setting "allowed-extensions"))))
+            (homestead:get-setting :allowed-extensions))))
     (find-if (lambda (path) (probe-file path)) possible-paths)))
 
 (defun find-include-path (name)

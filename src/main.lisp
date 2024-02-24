@@ -4,7 +4,7 @@
 (in-package :homestead)
 
 (defvar *settings*
-  '(:allowed-extensions (list "html" "md")
+  '(:allowed-extensions ("html" "md")
      :contents-dir "resources/contents"
      :build-dir "resources/build"))
 
@@ -20,8 +20,7 @@
 ;;; TODO: See building a self-contained executable with SBCL
 ;;; https://lispcookbook.github.io/cl-cookbook/scripting.html#with-sbcl---images-and-executables
 (defun main ()
-  "Entry point for Homestead"
-  (init-settings))
+  "Entry point for Homestead")
 
 (defun process-metadata-node (node)
   "Process a NODE and write output file"
@@ -30,7 +29,7 @@
                       :direction :output
                       :if-exists :supersede
                       :if-does-not-exist :create)
-      (write-sequence (homestead/templates:render-node node)))))
+      (write-sequence (homestead/templates:render-node node) stream))))
 
 ;; (defun process-metadata-node (node children)
 ;;   (let* ((attributes (cadr node))
