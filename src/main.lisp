@@ -31,21 +31,6 @@
                       :if-does-not-exist :create)
       (write-sequence (homestead/templates:render-node node) stream))))
 
-;; (defun process-metadata-node (node children)
-;;   (let* ((attributes (cadr node))
-;;           (title (getf attributes :title))
-;;           (rss (getf attributes :rss))
-;;           (keywords (getf attributes :keywords))
-;;           (permalink (getf attributes :permalink))
-;;           (children-count (length (car children))))
-;;     (format t
-;;       "page: \"~a\" [~a] rss? ~a | kwd: ~a | chld: ~a~%"
-;;       title
-;;       permalink
-;;       (if rss "YES" "no")
-;;       (if keywords (util:join keywords) "none")
-;;       children-count)))
-
 (defun full-permalink (permalink &optional parent-permalink)
   (if parent-permalink
     (concatenate 'string
