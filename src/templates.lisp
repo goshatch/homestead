@@ -31,13 +31,21 @@
   "Include a partial template represented by FILENAME at the location of the call"
   (render (util:find-include-path filename)))
 
+(defun sanitize-input (eval-string)
+  "TODO: Sanitize code (EVAL-STRING) that html templates want to evaluate"
+  eval-string)
+
 (defun render (path)
   "Render a full or partial template at PATH"
   (let ((html (cl-ppcre:split "{{\\s(.*)\\s}}" (util:slurp path) :with-registers-p t)))
     (util:join
       (mapcar (lambda (str)
                 (if (ppcre:scan "^\\(" str)
-                  (eval (read-from-string str))
+                  ;; NOTE: We want the default context of the code being
+                  ;; evaluated here to be in the TEMPLATES package, so that HTML
+                  ;; templates don't need to specify the full package name.
+                  (let ((*package* (find-package :homestead/templates)))
+                    (eval (read-from-string (sanitize-input str))))
                   str))
         html)
       "")))
