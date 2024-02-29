@@ -5,7 +5,8 @@
   :depends-on (#:cl-markdown #:cl-ppcre)
   :components ((:module "src"
                 :components
-                ((:file "util")
+                ((:file "config")
+                 (:file "util" :depends-on ("config"))
                  (:file "templates" :depends-on ("util"))
                  (:file "main" :depends-on ("util" "templates")))))
                  (:file "main" :depends-on ("util" "templates" "node")))))

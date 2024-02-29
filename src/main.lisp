@@ -3,15 +3,6 @@
   (:export #:get-setting))
 (in-package :homestead)
 
-(defvar *settings*
-  '(:allowed-extensions ("html" "md")
-     :contents-dir "resources/contents"
-     :build-dir "resources/build"))
-
-(defun get-setting (key)
-  "Get a setting value by its KEY"
-  (getf *settings* key))
-
 (defun load-metadata (&optional (file-path "resources/metadata.lisp"))
   (with-open-file (in file-path)
     (with-standard-io-syntax

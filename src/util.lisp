@@ -36,18 +36,18 @@
 
 (defun build-path (permalink &optional (extension "html"))
   "Return path for file with extension EXTENSION representing PERMALINK"
-  (concatenate 'string (homestead:get-setting :contents-dir) "/" permalink "." extension))
+  (concatenate 'string (conf:get-setting :contents-dir) "/" permalink "." extension))
 
 (defun build-output-path (permalink)
   "Return output file path for node PERMALINK"
-  (concatenate 'string (homestead:get-setting :build-dir) "/" permalink "/index.html"))
+  (concatenate 'string (conf:get-setting :build-dir) "/" permalink "/index.html"))
 
 (defun find-file-path (permalink)
   "Find the file with the appropriate extension for PERMALINK"
   (let ((possible-paths
           (mapcar
             (lambda (ext) (build-path permalink ext))
-            (homestead:get-setting :allowed-extensions))))
+            (conf:get-setting :allowed-extensions))))
     (find-if (lambda (path) (probe-file path)) possible-paths)))
 
 (defun find-include-path (name)
