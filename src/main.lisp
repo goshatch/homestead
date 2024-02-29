@@ -17,12 +17,16 @@
 
 (defun process-metadata-node (node)
   "Process a NODE and write output file"
-  (let ((attrs (cadr node)))
-    (with-open-file (stream (util:build-output-path (getf attrs :permalink))
-                      :direction :output
-                      :if-exists :supersede
-                      :if-does-not-exist :create)
-      (write-sequence (homestead/templates:render-node node) stream))))
+    (handler-case
+      (let ((output-html (homestead/templates:render-node node)))
+        (with-open-file (stream (util:build-output-path (node:a-get node :permalink))
+                          :direction :output
+                          :if-exists :supersede
+                          :if-does-not-exist :create)
+          (write-sequence output-html stream))
+        (format t "[OK] ~a" (node:a-get node :permalink)))
+      (error (err)
+        (format t "[ERROR] processing failed: ~a (~a)~%" (node:a-get node :permalink) err))))
 
 (defun full-permalink (permalink &optional parent-permalink)
   (if parent-permalink
@@ -39,7 +43,7 @@
            (permalink (car node))
            (children (list (cddr node)))
            (full-permalink (full-permalink permalink parent-permalink)))
-      (setf (getf node :permalink) full-permalink)
+      (node:a-set node :permalink full-permalink)
       (process-metadata-node node)
       (dolist (child children)
         (process-metadata-tree child full-permalink)))
