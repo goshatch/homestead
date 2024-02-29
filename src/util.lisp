@@ -40,11 +40,12 @@
 
 (defun build-path (permalink &optional (extension "html"))
   "Return path for file with extension EXTENSION representing PERMALINK"
-  (concatenate 'string (conf:get-setting :contents-dir) "/" permalink "." extension))
+  (let ((permalink (if (string= permalink "/") "index" permalink)))
+    (concatenate 'string (conf:get-setting :contents-dir) permalink "." extension)))
 
 (defun build-output-path (permalink)
   "Return output file path for node PERMALINK"
-  (concatenate 'string (conf:get-setting :build-dir) "/" permalink "/index.html"))
+  (concatenate 'string (conf:get-setting :build-dir) permalink "/index.html"))
 
 (defun find-file-path (permalink)
   "Find the file with the appropriate extension for PERMALINK"

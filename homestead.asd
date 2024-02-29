@@ -7,7 +7,7 @@
                 :components
                 ((:file "config")
                  (:file "util" :depends-on ("config"))
-                 (:file "node")
                  (:file "templates" :depends-on ("util"))
-                 (:file "main" :depends-on ("util" "templates" "node")))))
+                 (:file "node" :depends-on ("templates"))
+                 (:file "main" :depends-on ("util" "node")))))
   :description "A static website generator")

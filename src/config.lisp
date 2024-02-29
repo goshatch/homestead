@@ -7,6 +7,8 @@
 
 (in-package :homestead/config)
 
+(defvar *config*)
+
 (defun init ()
   "Initialises the global configuration plist"
   (defvar *config*
