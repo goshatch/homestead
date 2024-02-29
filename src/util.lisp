@@ -18,14 +18,18 @@
   (format nil (concatenate 'string "~{~A~^" separator "~}") list))
 
 (defun slurp (pathname)
-  "Reads the entire contents of the file at PATHNAME and returns it as a string."
-  (with-output-to-string (out)
-    (with-open-file (stream pathname
-                      :direction :input
-                      :if-does-not-exist :error)
-      (loop for line = (read-line stream nil nil)
-        while line do (write-string line out)
-        (write-char #\Newline out)))))
+  "Reads the entire contents of the file at PATHNAME and returns it as a string.
+   NIL is returned if the file at PATHNAME cannot be accessed."
+  (when pathname
+    (if (probe-file pathname)
+      (with-open-file (stream pathname
+                        :direction :input
+                        :if-does-not-exist nil)
+        (with-output-to-string (out)
+          (loop for line = (read-line stream nil nil)
+            while line do (write-string line out)
+            (write-char #\Newline out))))
+      nil)))
 
 (defun merge-plists (p1 p2)
   "Merge two plists, P1 and P2. Values from P2 override values from P1."
