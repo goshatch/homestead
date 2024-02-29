@@ -16,17 +16,13 @@
   (process-metadata-tree (load-metadata)))
 
 (defun build-full-permalink (permalink &optional parent-permalink)
-  (cond
-    (parent-permalink
-      (concatenate 'string
-        parent-permalink
-        (if (string= parent-permalink "index")
-          permalink
-          (concatenate 'string "/" permalink))))
-    ((string= permalink "/")
-      "index")
-    (t
-      permalink)))
+  (if parent-permalink
+    (concatenate 'string
+      parent-permalink
+      (if (string= parent-permalink "/")
+        permalink
+        (concatenate 'string "/" permalink)))
+    permalink))
 
 (defun process-metadata-tree (tree &optional parent-permalink)
   (when tree
