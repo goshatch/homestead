@@ -11,7 +11,9 @@
 ;;; TODO: See building a self-contained executable with SBCL
 ;;; https://lispcookbook.github.io/cl-cookbook/scripting.html#with-sbcl---images-and-executables
 (defun main ()
-  "Entry point for Homestead")
+  "Entry point for Homestead"
+  (conf:init)
+  (process-metadata-tree (load-metadata)))
 
 (defun process-metadata-node (node)
   "Process a NODE and write output file"
