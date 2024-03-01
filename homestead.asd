@@ -10,4 +10,14 @@
                  (:file "templates" :depends-on ("util"))
                  (:file "node" :depends-on ("templates"))
                  (:file "main" :depends-on ("util" "node")))))
-  :description "A static website generator")
+  :description "A static website generator"
+  :in-order-to ((test-op (test-op "homestead-tests"))))
+
+(defsystem "homestead-tests"
+  :depends-on (#:homestead #:fiveam)
+  :serial t
+  :components ((:module "tests"
+                :components ((:file "all")
+                             (:file "test-util" :depends-on ("all")))))
+  :perform (test-op (o c)
+             (symbol-call :homestead/tests :run-all!)))

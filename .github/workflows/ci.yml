@@ -1,0 +1,24 @@
+### Adapted from: https://github.com/neil-lindquist/CI-Utils/blob/master/config-examples/.github/workflows/ci.yml
+name: CI
+
+# Github Actions allows for running jobs on a wide variety of events
+on:
+  push: # Commits pushed to Github
+  pull_request: # Pull request is update
+  workflow_dispatch: # Manually dispatched from Github's UI
+
+jobs:
+  test:
+    name: "sbcl on ubuntu"
+    runs-on: ubuntu-latest
+
+    env:
+      LISP: sbcl-bin
+    steps:
+      - uses: actions/checkout@v2
+      - uses: 40ants/setup-lisp@v4
+        with:
+          asdf-system: homestead
+      - uses: 40ants/run-tests@v2
+        with:
+          asdf-system: homestead
