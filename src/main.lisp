@@ -12,7 +12,9 @@
 ;;; https://lispcookbook.github.io/cl-cookbook/scripting.html#with-sbcl---images-and-executables
 (defun main ()
   "Entry point for Homestead"
+  (format t "Initialising...~%")
   (conf:init)
+  (format t "Building...~%")
   (process-metadata-tree (load-metadata)))
 
 (defun build-full-permalink (permalink &optional parent-permalink)

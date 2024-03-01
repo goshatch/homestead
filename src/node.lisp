@@ -30,6 +30,6 @@
                         :if-exists :supersede
                         :if-does-not-exist :create)
         (write-sequence output-html stream))
-      (format t "[OK] ~a~%" (a-get node :permalink)))
+      (format t "~a ~a~%" (util:ansi-green "   [OK]") (util:ansi-strong (a-get node :permalink))))
     (error (err)
-      (format t "[ERROR] processing failed: ~a (~a)~%" (a-get node :permalink) err))))
+      (format t "~a ~a:~%~8T~a~%" (util:ansi-red "[ERROR]") (util:ansi-strong (a-get node :permalink)) err))))

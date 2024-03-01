@@ -5,6 +5,9 @@
     #:join
     #:slurp
     #:merge-plists
+    #:ansi-red
+    #:ansi-green
+    #:ansi-strong
     #:build-path
     #:build-output-path
     #:find-file-path
@@ -19,17 +22,17 @@
 
 (defun slurp (pathname)
   "Reads the entire contents of the file at PATHNAME and returns it as a string.
-   NIL is returned if the file at PATHNAME cannot be accessed."
-  (when pathname
-    (if (probe-file pathname)
-      (with-open-file (stream pathname
-                        :direction :input
-                        :if-does-not-exist nil)
-        (with-output-to-string (out)
-          (loop for line = (read-line stream nil nil)
-            while line do (write-string line out)
-            (write-char #\Newline out))))
-      nil)))
+   An error of the type file-error is signaled if the file at PATHNAME does not
+   exist."
+  (if (probe-file pathname)
+    (with-open-file (stream pathname
+                      :direction :input
+                      :if-does-not-exist :error)
+      (with-output-to-string (out)
+        (loop for line = (read-line stream nil nil)
+          while line do (write-string line out)
+          (write-char #\Newline out))))
+    nil))
 
 (defun merge-plists (p1 p2)
   "Merge two plists, P1 and P2. Values from P2 override values from P1."
@@ -37,6 +40,18 @@
     (loop for (key value) on p2 by #'cddr
       do (setf (getf result key) value))
     result))
+
+(defun ansi-red (string)
+  "Wrap STRING in ANSI escape codes for red text"
+  (format nil "~c[31m~a~c[0m" #\Esc string #\Esc))
+
+(defun ansi-green (string)
+  "Wrap STRING in ANSI escape codes for green text"
+  (format nil "~c[32m~a~c[0m" #\Esc string #\Esc))
+
+(defun ansi-strong (string)
+  "Wrap STRING in ANSI escape codes for strong text."
+  (format nil "~c[1;37m~a~c[0m" #\Esc string #\Esc))
 
 (defun build-path (permalink &optional (extension "html"))
   "Return path for file with extension EXTENSION representing PERMALINK"
